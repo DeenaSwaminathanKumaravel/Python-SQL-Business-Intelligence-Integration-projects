@@ -12,6 +12,20 @@ where d.DepartmentName is null;
 
 -- Q.2 List all projects along with the names of their lead employees.
 
+CREATE TABLE projects (
+    ProjectID INT PRIMARY KEY,
+    ProjectName VARCHAR(100),
+    LeadEmployeeID INT
+);
+
+select * from employee e 
+right join projects p on e.EmployeeID  = p.LeadEmployeeID 
+
+INSERT INTO projects (ProjectID, ProjectName, LeadEmployeeID) VALUES
+(1, 'Project Alpha', 2),
+(2, 'Project Beta', 4),
+(3, 'Project Gamma', 6);  -- No such employee with ID 6
+
 
 
 -- Q.3 Identify any employees that currently have no assigned departments.
@@ -54,6 +68,22 @@ right join department d on d.DepartmentID = e.DepartmentID;
 
 -- Q.7 Display all departments and their employees, including departments with no employees and employees with no departments.
 
+select * from employee e 
+left join department d on e.DepartmentID  = d.DepartmentID
+union -- removing duplicates
+select * from employee e 
+right join department d on e.DepartmentID  = d.DepartmentID;
+
+-- (OR)
+
+select * from employee e 
+left join department d on e.DepartmentID  = d.DepartmentID
+
+union -- no duplicates to remove, but still will remove as we have used union not union all
+
+select * from employee e 
+right join department d on e.DepartmentID  = d.DepartmentID
+where e.FirstName is null;
 
 -- UNION
 
