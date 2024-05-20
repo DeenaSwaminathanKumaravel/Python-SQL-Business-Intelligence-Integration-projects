@@ -89,7 +89,7 @@ from
 select
 	SaleDate,
 	max(SaleAmount) as sale,
-	weekday(SaleDate) as dateinweek
+	dayname(SaleDate) as dateinweek
 from
 	sales s
 group by
@@ -197,8 +197,7 @@ select
 		when datediff(EndDate, StartDate) > 15
 		and datediff(EndDate, StartDate) <= 30 then 
 	 	budget
-		when datediff(EndDate, StartDate) > 30 then 
-	 	budget + (budget * 10 / 100)
+		else budget + (budget * 10 / 100)
 	end as new_budget
 from
 	campaigns c ;
@@ -410,7 +409,8 @@ select
 from
 	s1
 join s2 on
-	s1.Name = s2.Name;
+	s1.Name = s2.Name
+order by Daysuntillnextpurchase desc;
 
 
 -- Q.24 Calculate the 7-Day Moving Average of Sales.
