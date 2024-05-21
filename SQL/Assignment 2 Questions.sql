@@ -423,18 +423,37 @@ order by
 from
 	sales s ;
 
+select * from customers c ;
+select * from campaigns c ;
+select * from sales c ;
 
 /*
  * Q.25 Write a stored procedure to provide a summary of campaigns including the number of participants, total sales, and average sale amount.
 
 * HINT: Use function FIND_IN_SET() to filter multiple campaign IDs
+* 
  */
 
+delimiter //
 
+create procedure sp_campaigns()
+begin
+	select
+	c.CampaignName ,
+	count(*) no_of_participants,
+	sum(SaleAmount) Total_sales,
+	round(avg(SaleAmount), 2) Avg_sale
+	from
+		campaigns c
+	join sales s on
+		c.CampaignID = s.CampaignID
+	group by
+		c.CampaignName
+	order by
+		Total_sales desc;
+end
+//
+delimiter ;
 
-
-
-
-
-
+call sp_campaigns(); 
 
